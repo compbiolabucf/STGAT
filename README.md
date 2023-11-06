@@ -8,3 +8,4 @@ This repository represents a framework named STGAT which can be trained on Spati
 - scipy (>= 1.7.1)
 - pandas (>= 1.3.4)
 - numpy (>= 1.20.3)
+- scikit-image (>=0.19.2)
