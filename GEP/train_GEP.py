@@ -319,14 +319,12 @@ def load_data(names,im_dir,coord_dir, adj_threshold):
 
 #train and test GEP module
 def run_GEP(root_dir, patience, adj_threshold, nb_heads, nb_embed, n_epochs, lr, lr_step, lr_gamma, BATCH_SIZE, gpu='cuda:0'):
-    
-    root_dir = '../io_data/TCGA/'
 
     patch_dir = root_dir + '/patches/'
     coord_dir = root_dir + '/coords/'
     names = os.listdir(patch_dir)
         
-    genes = pd.read_csv(root_dir + '/gene_names.csv', index_col=0)['Gene']
+    genes = pd.read_csv(root_dir + '../gene_names.csv', index_col=0)['Gene']
     n_features = genes.shape[0]  
     exp_data = pd.read_csv(root_dir + '/_tcga_exp.csv',index_col=0)[genes]
 
