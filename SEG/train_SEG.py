@@ -56,10 +56,9 @@ def single_sample_run(model, image_set, dataset, adj, test=False, BATCH_SIZE=16,
 
 
 def train_model(model, train_data, train_ims, train_adjs, val_data, val_ims, val_adjs, criterion, gpu='cuda:0', BATCH_SIZE=16, lr=1e-5, lr_step=5, lr_gamma=0.5, epochs=1000, patience=30, grad_clip=None):
-    # empty list to store training losses
-    loss_vals = []
+    
     # empty list to store validation losses
-    losses = []
+    loss_vals = []
     t_total = time.time()
     best = 1e10
 
@@ -79,7 +78,7 @@ def train_model(model, train_data, train_ims, train_adjs, val_data, val_ims, val
             optimizer.zero_grad()
             tr_output = single_sample_run(model, train_ims[i], tr_dataset, train_adjs[i], BATCH_SIZE=BATCH_SIZE, gpu=gpu)
             
-            ## computing train loss for a single spatial sample
+            ## computing train loss for a single sample
             tr_dataset = Variable(torch.Tensor(tr_dataset).cuda(gpu))
             loss_train = criterion(tr_output, tr_dataset)
             loss_train.backward()
@@ -122,8 +121,8 @@ def train_model(model, train_data, train_ims, train_adjs, val_data, val_ims, val
         print('val_loss: ', val_l, 'val mean correlation: ', val_corr)
         torch.cuda.empty_cache()
 
-        os.makedirs('saved_model/', exist_ok=True)
-        torch.save(model.state_dict(), 'saved_model/{}.pkl'.format(epoch))
+        os.makedirs('./saved_model/', exist_ok=True)
+        torch.save(model.state_dict(), './saved_model/{}.pkl'.format(epoch))
         if loss_vals[-1] < best:
             best = loss_vals[-1]
             best_epoch = epoch
@@ -134,18 +133,18 @@ def train_model(model, train_data, train_ims, train_adjs, val_data, val_ims, val
         if bad_counter == patience:
             break
 
-        files = glob.glob('saved_model/*.pkl')
+        files = glob.glob('./saved_model/*.pkl')
         for file in files:
-            epoch_nb = int(file.split('/')[1].split('.')[0])
+            epoch_nb = int(file.split('/')[2].split('.')[0])
             if epoch_nb < best_epoch:
                 os.remove(file)
 
         print('----------------------------------------------------------------------------------------')
 
 
-    files = glob.glob('saved_model/*.pkl')
+    files = glob.glob('./saved_model/*.pkl')
     for file in files:
-        epoch_nb = int(file.split('/')[1].split('.')[0])
+        epoch_nb = int(file.split('/')[2].split('.')[0])
         if epoch_nb > best_epoch:
             os.remove(file)
 
@@ -154,7 +153,7 @@ def train_model(model, train_data, train_ims, train_adjs, val_data, val_ims, val
 
     # Restore best model
     print('Loading {}th epoch'.format(best_epoch))
-    model.load_state_dict(torch.load('saved_model/{}.pkl'.format(best_epoch)))
+    model.load_state_dict(torch.load('./saved_model/{}.pkl'.format(best_epoch)))
     
     return model
 
@@ -175,7 +174,7 @@ def validate_model(model, val_data, val_ims, val_adjs, criterion, gpu='cuda:0', 
 
         val_output = single_sample_run(model, val_ims[i], val_dataset, val_adjs[i], BATCH_SIZE=BATCH_SIZE, gpu=gpu)
         
-        ## computing train loss for a single spatial sample
+        ## computing loss for a single spatial sample
         val_dataset = torch.Tensor(val_dataset).cuda(gpu)
         loss_val = criterion(val_output, val_dataset)
 
@@ -219,7 +218,7 @@ def test_model(model, test_data, test_ims, test_adjs, test_names, genes, root_di
         
         tl_func = nn.MSELoss()
         
-        ## computing train loss for a single spatial sample
+        ## computing loss for a single spatial sample
         ts_output = ts_output.detach().cpu()
         test_dataset = torch.Tensor(test_dataset)    
         loss_test = tl_func(ts_output, test_dataset)
@@ -232,9 +231,6 @@ def test_model(model, test_data, test_ims, test_adjs, test_names, genes, root_di
         print(test_dataset)
         print("Predicted testset expression: ")
         print(ts_output)
-
-        temp_true = pd.DataFrame(np.array(test_dataset))
-        temp_out = pd.DataFrame(np.array(ts_output))
 
         temp_true = pd.DataFrame(np.array(test_dataset))
         temp_out = pd.DataFrame(np.array(ts_output))
@@ -327,7 +323,7 @@ def run_SEG(root_dir, patience, adj_threshold, nb_heads, nb_embed, n_epochs, lr,
     
     patch_dir = root_dir + '/patches/'
     
-    genes = pd.read_csv(root_dir + '/spatial_gene_names.csv', index_col=0)['Gene']
+    genes = pd.read_csv(root_dir + '../gene_names.csv', index_col=0)['Gene']
     n_features = genes.shape[0]  
 
 
@@ -359,18 +355,16 @@ def run_SEG(root_dir, patience, adj_threshold, nb_heads, nb_embed, n_epochs, lr,
     # defining the loss function
     criterion = nn.MSELoss()
 
-
-    # checking if GPU is available
-    if torch.cuda.is_available():
-        model = model.to(gpu)
-        criterion = criterion.cuda(gpu)
+    # moving to GPU if available
+    model = model.to(gpu)
+    criterion = criterion.cuda(gpu)
     print(model)
 
 
     # training
     model = train_model(model, train_data, train_ims, train_adjs, val_data, val_ims, val_adjs, criterion, gpu=gpu, BATCH_SIZE=BATCH_SIZE, lr=lr, lr_step=lr_step, lr_gamma=lr_gamma, epochs=n_epochs, patience=patience, grad_clip=None)
     os.makedirs('./trained/', exist_ok=True)
-    
+    torch.save(model.state_dict(), './trained/{}.pkl'.format('sp_trained'))
 
     # testing
     test_model(model, test_data, test_ims, test_adjs, test_names, genes, root_dir, gpu=gpu, BATCH_SIZE=BATCH_SIZE)

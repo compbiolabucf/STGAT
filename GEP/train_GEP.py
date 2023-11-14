@@ -16,19 +16,19 @@ from .utils import *
 seed = 0
 np.random.seed(seed)
 torch.manual_seed(seed)
-# n_features = 10000
-adj_threshold = 0.2
-# alpha_loss = 0.2
-gpu = 'cuda'
-patience = 20
-# alpha=0.75
-nb_heads = 12
-nb_embed = 64
-BATCH_SIZE= 2
-n_epochs = 10000
-lr=1e-4
-lr_step=5
-lr_gamma=0.75
+# # n_features = 10000
+# adj_threshold = 0.2
+# # alpha_loss = 0.2
+# gpu = 'cuda'
+# patience = 20
+# # alpha=0.75
+# nb_heads = 12
+# nb_embed = 64
+# BATCH_SIZE= 2
+# n_epochs = 10000
+# lr=1e-4
+# lr_step=5
+# lr_gamma=0.75
 
 
 
@@ -73,7 +73,7 @@ def single_sample_run(model, tcga_exp, image_set, adj, BATCH_SIZE=16, gpu='cuda'
 
 
 
-def train_model(model, train_data, train_ims, train_adjs, val_data, val_ims, val_adjs, criterion, gpu='cuda', BATCH_SIZE=16, lr=1e-5, epochs=1000, patience=30, grad_clip=None):
+def train_model(model, train_data, train_ims, train_adjs, val_data, val_ims, val_adjs, criterion, gpu='cuda', BATCH_SIZE=16, lr=1e-5, lr_step=5, lr_gamma=0.75, epochs=1000, patience=30, grad_clip=None):
 
     # empty list to store validation losses
     loss_vals = []
@@ -156,7 +156,7 @@ def train_model(model, train_data, train_ims, train_adjs, val_data, val_ims, val
 
         files = glob.glob('./saved_model/*.pkl')
         for file in files:
-            epoch_nb = int(file.split('/')[1].split('.')[0])
+            epoch_nb = int(file.split('/')[2].split('.')[0])
             if epoch_nb < best_epoch:
                 os.remove(file)
 
@@ -165,7 +165,7 @@ def train_model(model, train_data, train_ims, train_adjs, val_data, val_ims, val
 
     files = glob.glob('./saved_model/*.pkl')
     for file in files:
-        epoch_nb = int(file.split('/')[1].split('.')[0])
+        epoch_nb = int(file.split('/')[2].split('.')[0])
         if epoch_nb > best_epoch:
             os.remove(file)
 
@@ -287,7 +287,7 @@ def test_model(model, test_data, test_ims, test_adjs, samples, spot_names_lst, g
 
 
 
-def load_data(names,im_dir,coord_dir, adj_threshold):
+def load_data(names,im_dir,coord_dir, adj_threshold=0.2):
 
     sample_nums = []
     adj_matrices = []
@@ -326,7 +326,7 @@ def run_GEP(root_dir, patience, adj_threshold, nb_heads, nb_embed, n_epochs, lr,
         
     genes = pd.read_csv(root_dir + '../gene_names.csv', index_col=0)['Gene']
     n_features = genes.shape[0]  
-    exp_data = pd.read_csv(root_dir + '/_tcga_exp.csv',index_col=0)[genes]
+    exp_data = pd.read_csv(root_dir + '/tcga_exp.csv',index_col=0)[genes]
 
     names = os.listdir(patch_dir)   #exp_data.index
     exp_data = exp_data.loc[names]
@@ -345,8 +345,8 @@ def run_GEP(root_dir, patience, adj_threshold, nb_heads, nb_embed, n_epochs, lr,
 
 
     train_adjs, train_ims, _ , _ = load_data(tr_x, im_dir=patch_dir, coord_dir=coord_dir, adj_threshold=adj_threshold)
-    test_adjs, test_ims, samples, spot_names_lst = load_data(ts_x, im_dir=patch_dir, coord_dir=coord_dir)
-    val_adjs, val_ims, _ , _ = load_data(val_x, im_dir=patch_dir, coord_dir=coord_dir)
+    test_adjs, test_ims, samples, spot_names_lst = load_data(ts_x, im_dir=patch_dir, coord_dir=coord_dir, adj_threshold=adj_threshold)
+    val_adjs, val_ims, _ , _ = load_data(val_x, im_dir=patch_dir, coord_dir=coord_dir, adj_threshold=adj_threshold)
     print('Number of features: ', n_features)
 
 
@@ -369,18 +369,17 @@ def run_GEP(root_dir, patience, adj_threshold, nb_heads, nb_embed, n_epochs, lr,
     ### freezing the trained parts
     model.freeze()
 
-
     model = train_model(model, train_data, train_ims, 
                 train_adjs, val_data, val_ims, val_adjs, 
-                gpu=gpu, BATCH_SIZE=BATCH_SIZE, lr=lr, 
+                criterion, gpu=gpu, BATCH_SIZE=BATCH_SIZE, lr=lr, 
+                lr_step = lr_step, lr_gamma = lr_gamma,
                 epochs=n_epochs, patience=patience, 
                 grad_clip=None)
 
 
-    # testing
-    test_model(model, test_data, test_ims, test_adjs, samples, spot_names_lst, genes, criterion, gpu=gpu, 
-                lr=lr, lr_step = lr_step, lr_gamma = lr_gamma, epochs = n_epochs, 
-                patience = patience, BATCH_SIZE=BATCH_SIZE)
+    # testings
+    test_model(model, test_data, test_ims, test_adjs, samples, spot_names_lst, genes, 
+               criterion, gpu=gpu, BATCH_SIZE=BATCH_SIZE)
 
 
     # torch.save(model.state_dict(), '{}.pkl'.format(subtype))

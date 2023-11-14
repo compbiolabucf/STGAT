@@ -25,7 +25,7 @@ def save_patches(image, out_path, csv_out_path, spot_size=512):
 
 	for r in range(rows):
 		for c in range(cols):
-			print(r, c)
+			print("Saving patch at coord: ", r, c)
 			patch = image[r*spot_size:(r+1)*spot_size, c*spot_size:(c+1)*spot_size]
 			mean_RGB = patch[:,:, 0]/3 + patch[:,:, 1]/3 + patch[:,:, 2]/3
 
@@ -50,6 +50,7 @@ def split_tcga(root_dir, spot_size=512):
 	tcga_dir = root_dir + '/wsi/'
 	patch_dir = root_dir + '/patches/'	
 	coord_dir = root_dir + '/coords/'
+	os.makedirs(root_dir+'/coords/',exist_ok=True)
  
 	for name in os.listdir(tcga_dir):
      
