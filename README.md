@@ -9,3 +9,16 @@ This repository represents a framework named STGAT which can be trained on Spati
 - pandas (>= 1.3.4)
 - numpy (>= 1.20.3)
 - scikit-image (>=0.19.2)
+
+
+## Sample dataset can be found at https://drive.google.com/drive/folders/1j9lQnHBFW59LXH-cWhHoreaUbmQW2csy?usp=sharing
+If using own dataset, a folder named 'io_data' should be created in the same directory where 'main.py' is located. 
+#io_data
+  *[ST/](.\io_data\ST)
+    *[wsi](.\io_data\ST\wsi)
+    *[coords](.\io_data\ST\coords)
+    *[gene_exp](.\io_data\ST\gene_exp)
+  *[TCGA/](.\io_data\TCGA)
+    *[wsi](.\io_data\TCGA\wsi)
+    *[tcga_exp.csv](.\io_data\TCGA\tcga_exp.csv)
+  *[gene_names.csv](.\io_data\gene_names.csv)
