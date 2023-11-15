@@ -22,3 +22,4 @@ The data directory should look like the following:
     - TCGA
       - tcga_exp.csv
       - wsi
+where 'wsi' contains the whole slide images for ST and TCGA samples, 'coords' and 'gene_exp' contain the coordinates and gene expression of the spots for ST samples. The bulk gene expression of the TCGA samples should be in 'tcga_exp.csv' file.
