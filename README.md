@@ -29,6 +29,7 @@ Format for the files contatining the gene expression should be:
 | Sample1 |    -   |    -  |   -   |   -   |
 | Sample2 |    -   |    -  |   -   |   -   |
 | Sample3 |    -   |    -  |   -   |   -   |
+
 'Sample' means spot in case spot level gene expression and TCGA sample name in case of TCGA bulk gene expression.
 
 The coordinate files' format should be: 
