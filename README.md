@@ -14,14 +14,14 @@ This repository represents a framework named STGAT which can be trained on Spati
 Sample dataset can be found at this link: https://drive.google.com/drive/folders/1j9lQnHBFW59LXH-cWhHoreaUbmQW2csy?usp=sharing
 The data directory should look like the following:
 - io_data
-   - gene_names.csv
+   - gene_names.csv (name of the genes to be predicted ('.csv' format) with column name ['Gene'])
    - ST
-      - wsi
-      - coords
-      - gene_exp
+      - wsi (Whole slide images of the ST samples in '.jpg/'.jpeg'/'.tiff' format)
+      - coords (Files containing the coordinates of the spots of those samples ('.csv' format) with column names ['X', 'Y']) 
+      - gene_exp (Files which contains the gene expression of the spots for the ST samples ('.csv' format)
     - TCGA
-      - tcga_exp.csv
-      - wsi
+      - tcga_exp.csv (Single '.csv' file contatining the bulk gene expression of the TCGA samples)
+      - wsi (Whole slide images of the TCGA samples ('.svs' format))
 
 where 'wsi' contains the whole slide images for ST and TCGA samples, 'coords' and 'gene_exp' contain the coordinates and gene expression of the spots for ST samples. The bulk gene expression of the TCGA samples should be in 'tcga_exp.csv' file.
 
