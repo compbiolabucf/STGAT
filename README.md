@@ -14,16 +14,29 @@ This repository represents a framework named STGAT which can be trained on Spati
 Sample dataset can be found at this link: https://drive.google.com/drive/folders/1j9lQnHBFW59LXH-cWhHoreaUbmQW2csy?usp=sharing
 The data directory should look like the following:
 - io_data
-   - gene_names.csv (name of the genes to be predicted ('.csv' format) with column name ['Gene'])
+   - gene_names.csv (name of the genes to be predicted ('.csv' format) with column/Series name ['Gene'])
    - ST
       - wsi (Whole slide images of the ST samples in '.jpg/'.jpeg'/'.tiff' format)
-      - coords (Files containing the coordinates of the spots of those samples ('.csv' format) with column names ['X', 'Y']) 
+      - coords (Files containing the coordinates of the spots of those samples ('.csv' format) with column names) 
       - gene_exp (Files which contains the gene expression of the spots for the ST samples ('.csv' format)
     - TCGA
       - tcga_exp.csv (Single '.csv' file contatining the bulk gene expression of the TCGA samples)
       - wsi (Whole slide images of the TCGA samples ('.svs' format))
 
-where 'wsi' contains the whole slide images for ST and TCGA samples, 'coords' and 'gene_exp' contain the coordinates and gene expression of the spots for ST samples. The bulk gene expression of the TCGA samples should be in 'tcga_exp.csv' file.
+Format for the files contatining the gene expression should be:
+|         | Gene1  | Gene2 | Gene3 | Gene4 |
+|---------|--------|-------|-------|-------|
+| Sample1 |    -   |    -  |   -   |   -   |
+| Sample2 |    -   |    -  |   -   |   -   |
+| Sample3 |    -   |    -  |   -   |   -   |
+'Sample' means spot in case spot level gene expression and TCGA sample name in case of TCGA bulk gene expression.
+
+The coordinate files' format should be: 
+|         |    X   |    Y  |
+|---------|--------|-------|
+| Spot1   |    -   |    -  |
+| Spot2   |    -   |    -  |
+| Spot3   |    -   |    -  |
 
 ## Training and testing the model
 The SEG and GEP modules can be trained and tested by running 'main.py' file in the command line. The options can be used to modify the training and model parameters.
