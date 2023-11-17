@@ -30,14 +30,25 @@ The SEG and GEP modules can be trained and tested by running 'main.py' file in t
 Codes for SEG and GEP modules can be found in the respective directories. 'split' directory contains the codes for splitting the patches from the ST and TCGA samples. For the TCGA samples, coordinate files are also generated. 
 After successfull training of SEG and GEP, the directory structure should look like the following:
 - SEG (containing SEG codes)
-- GEP (containing GEPP codes)
-- prediction 
+- GEP (containing GEP codes)
 - io_data
    - gene_names.csv
    - ST
       - wsi
       - coords
       - gene_exp
+      - patches (Containing split ST spots)
     - TCGA
       - tcga_exp.csv
       - wsi
+      - patches (containing split TCGA spots)
+      - coords (containing files having the coordinates of the generated spots from TCGA samples)
+- prediction (Predicted spot-level gene expression of the test TCGA samples)
+- results (Predicted spot-level gene expression of the test ST samples)
+- saved_moodel (directory for saving modeles temporarily in each eporch)
+- trained (directory for saving trained SEG and GEP modules)
+
+
+NB: 
+1. Sample data is provided only to let the user know about the format and processing of the input data. Results might be poor if trained with sample data.
+2. 'SLP' part of the framework which will classify the spots into tumoor and non-tumor will be uploaded soon.
