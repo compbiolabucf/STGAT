@@ -40,7 +40,10 @@ The coordinate files' format should be:
 | Spot3   |    -   |    -  |
 
 ## Training and testing the model
-The SEG and GEP modules can be trained and tested by running 'main.py' file in the command line. The options can be used to modify the training and model parameters.
+The SEG and GEP modules can be trained and tested by running 'main.py' file in the command line. The options can be used to modify the training and model parameters. For example,
+```
+python main.py --sp_dir io_data/ST/ --tcga_dir io_data/TCGA/
+```
 Codes for SEG and GEP modules can be found in the respective directories. 'split' directory contains the codes for splitting the patches from the ST and TCGA samples. For the TCGA samples, coordinate files are also generated. 
 After successfull training of SEG and GEP, the directory structure should look like the following:
 - SEG (containing SEG codes)
