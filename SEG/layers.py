@@ -76,7 +76,7 @@ class GraphAttentionLayer(nn.Module):
 
         attention_sum = torch.sum(attention, axis = -1, keepdims = True)
         attention_s = 1/(1 + attention_sum)  
-        attention_n = attention/(1 + attention_sum)
+        attention_n = attention
 
         h_s = F.dropout(h_s, self.dropout, training=self.training)
         h_n = F.dropout(h_n, self.dropout, training=self.training)
