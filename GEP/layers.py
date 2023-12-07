@@ -4,16 +4,6 @@ import torch.nn.functional as F
 
 
 
-# def conv_block(in_channels, out_channels, pool_size=2, pool=False):
-#     conv_layer = nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1, stride=1)
-#     nn.init.xavier_uniform_(conv_layer.weight, gain=1)
-#     nn.init.constant_(conv_layer.bias, val=0)
-#     layers = [conv_layer, 
-#             #   nn.BatchNorm2d(out_channels), 
-#               nn.ReLU(inplace=True)]
-#     if pool: layers.append(nn.MaxPool2d(kernel_size = pool_size, stride = 2))
-#     return nn.Sequential(*layers)
-
 def conv_block(in_channels, out_channels, relu=True, pool_size=2, pool=False):
     conv_layer = nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1, stride=1)
     nn.init.xavier_uniform_(conv_layer.weight, gain=1)
@@ -85,13 +75,12 @@ class GraphAttentionLayer(nn.Module):
 
         zero_vec = -9e15*torch.ones_like(e)   #torch.zeros_like(e)                       
         attention = torch.where(adj > 0, e, zero_vec)             ## assigning values of 'e' to those which has value>0 in adj matrix
-        attention = F.softmax(attention, dim=1)    ## changed here
+        attention = F.softmax(attention, dim=1)  
 
-        ## changed next three lines
-        # attention_sum = torch.sum(attention, axis = -1, keepdims = True)
-        attention_s = 0.5 #1/(1 + attention_sum)  
-        attention_n = attention   #/2   #(1 + attention_sum)
-
+        attention_sum = torch.sum(attention, axis = -1, keepdims = True)
+        attention_s = 1/(1 + attention_sum)  
+        attention_n = attention/(1 + attention_sum)
+        
         h_s = F.dropout(h_s, self.dropout, training=self.training)
         h_n = F.dropout(h_n, self.dropout, training=self.training)
 
