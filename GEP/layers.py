@@ -13,11 +13,11 @@ def conv_block(in_channels, out_channels, relu=True, pool_size=2, pool=False):
         layers = [conv_layer, 
               nn.ReLU(inplace=True)]
     else:
-        layers = [conv_layer] 
+        layers = [conv_layer]
+        
     if pool: layers.append(nn.MaxPool2d(kernel_size = pool_size, stride = 2))
     
-    if len(layers)>1: return nn.Sequential(*layers)
-    else: return layers[0]
+    return nn.Sequential(*layers)
 
 
 
@@ -29,12 +29,11 @@ def linear_block(in_features, out_features, final_layer=False):
 
     if final_layer:
         return linear_layer
-    
-    layers = [linear_layer, 
-              nn.ReLU(inplace=True)]
+    else:
+        layers = [linear_layer, 
+                nn.ReLU(inplace=True)]
 
     return nn.Sequential(*layers)
-
 
 
 
