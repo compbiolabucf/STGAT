@@ -11,11 +11,9 @@ def conv_block(in_channels, out_channels, relu=True, pool_size=2, pool=False):
 
     if relu:
         layers = [conv_layer, 
-            #   nn.BatchNorm2d(out_channels), 
               nn.ReLU(inplace=True)]
     else:
         layers = [conv_layer] 
-                # nn.BatchNorm2d(out_channels)]
     if pool: layers.append(nn.MaxPool2d(kernel_size = pool_size, stride = 2))
     
     if len(layers)>1: return nn.Sequential(*layers)
@@ -31,10 +29,8 @@ def linear_block(in_features, out_features, final_layer=False):
 
     if final_layer:
         return linear_layer
-                # nn.BatchNorm1d(out_features)]
     
     layers = [linear_layer, 
-            #   nn.BatchNorm1d(out_features), 
               nn.ReLU(inplace=True)]
 
     return nn.Sequential(*layers)
@@ -83,8 +79,6 @@ class GraphAttentionLayer(nn.Module):
         
         h_s = F.dropout(h_s, self.dropout, training=self.training)
         h_n = F.dropout(h_n, self.dropout, training=self.training)
-
-        # attention = F.dropout(attention, self.dropout, training=self.training)
         
         h_prime = attention_s*h_s + torch.matmul(attention_n, h_n)                      ## multiplying attention co-efficients with the input  -- dimension (#input X out_features)
 
