@@ -81,7 +81,7 @@ class GraphAttentionLayer(nn.Module):
         h_prime = attention_s*h_s + torch.matmul(attention_n, h_n)                      ## multiplying attention co-efficients with the input  -- dimension (#input X out_features)
 
         if self.concat:
-            xtra = F.elu(h_prime)
+            #xtra = F.elu(h_prime)
             return F.elu(h_prime)
         else:
             return h_prime
