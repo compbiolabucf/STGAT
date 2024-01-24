@@ -1,6 +1,9 @@
 # STGAT
 This repository represents a Machine Learning framework named STGAT (Spatial Transcriptomics Graph Attention Network) which can be trained on Spatial Transcriptomics (ST) data and applied on TCGA data to generate spot-level gene expression for the TCGA samples. The produced gene expression can be leveraged various downstream analysis including subtype classification, survival prediction etc. Moreover, comprehensive experimentation proves that considering only the tumor spots to compute the mean gene expression of a sample results in better performance.
 
+## Workflow
+![alt text]([https://github.com/compbiolabucf/STGAT/blob/main/STGAT_overall_diagram.pdf])
+
 ## Required Python libraries
 - Python (>= 3.9.7)
 - Pytorch (>= 1.11) [with cudatoolkit (>= 11.3.1) if cuda is used]
