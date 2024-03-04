@@ -69,6 +69,4 @@ After successfull training of SEG and GEP, the directory structure should look l
 - trained (directory for saving trained SEG and GEP modules)
 
 
-NB: 
-1. Sample data is provided only to let the user know about the format and processing of the input data. Results might be poor if trained with sample data.
-2. 'SLP' part of the framework which will classifies the spots into tumor and non-tumor will be uploaded soon.
+NB: Sample data is provided only to let the user know about the format and processing of the input data. Results might be poor if trained with sample data.
