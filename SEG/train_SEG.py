@@ -247,14 +247,14 @@ def test_model(model, test_data, test_ims, test_adjs, test_names, genes, root_di
         
         corr_ts.index = spot_names
         print(corr_ts)
-        os.makedirs('./results/', exist_ok=True)
-        corr_ts.to_csv('./results/'+test_names[i]+'_corr.csv')
+        os.makedirs('./st_results/', exist_ok=True)
+        corr_ts.to_csv('./st_results/'+test_names[i]+'_corr.csv')
 
 
         temp_out = pd.DataFrame(temp_out)
         temp_out.index = spot_names
         temp_out.columns = genes
-        temp_out.to_csv('./results/'+test_names[i]+'_out.csv')
+        temp_out.to_csv('./st_results/'+test_names[i]+'_out.csv')
 
         torch.cuda.empty_cache()
 
@@ -328,11 +328,11 @@ def run_SEG(root_dir, patience, adj_threshold, nb_heads, nb_embed, n_epochs, lr,
 
 
     names = os.listdir(patch_dir)
-    tr_x,test_names,__,_=train_test_split(names,
-                    names,test_size=0.3,random_state=seed)
+    tr_x,test_names=train_test_split(names,
+                    test_size=0.3,random_state=seed)
 
-    train_names,val_names,_,_=train_test_split(tr_x,
-                    __,test_size=0.3,random_state=seed)
+    train_names,val_names=train_test_split(tr_x,
+                    test_size=0.3,random_state=seed)
 
 
     # genes = pd.read_csv('../GC_data/gc_32_genes.csv', index_col=0)
