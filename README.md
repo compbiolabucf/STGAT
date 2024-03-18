@@ -21,9 +21,10 @@ The data directory should look like the following:
    - ST
       - wsi (Whole slide images of the ST samples in '.jpg/'.jpeg'/'.tiff' format)
       - coords (Files containing the coordinates of the spots of those samples ('.csv' format) with column names) 
-      - gene_exp (Files which contains the gene expression of the spots for the ST samples ('.csv' format)
+      - gene_exp (Files which contains the gene expression of the spots for the ST samples ('.csv' format) with gene names as the column names)
+      - clinical (Files containing the tumor label of the spots for the ST samples ('.csv' format)) 
     - TCGA
-      - tcga_exp.csv (Single '.csv' file contatining the bulk gene expression of the TCGA samples)
+      - tcga_exp.csv (Single '.csv' file contatining the bulk gene expression of the TCGA samples with gene names as the column names)
       - wsi (Whole slide images of the TCGA samples ('.svs' format))
 
 Format for the files contatining the gene expression should be:
@@ -55,26 +56,26 @@ The SEG and GEP modules can be trained and tested by running 'main.py' file in t
 ```
 python main.py --sp_dir io_data/ST/ --tcga_dir io_data/TCGA/
 ```
-Codes for SEG and GEP modules can be found in the respective directories. 'split' directory contains the codes for splitting the patches from the ST and TCGA samples. For the TCGA samples, coordinate files are also generated. 
-After successfull training of SEG and GEP, the directory structure should look like the following:
+Codes for SEG, GEP and SLP modules can be found in the respective directories. 'split' directory contains the codes for splitting the patches from the ST and TCGA samples. For the TCGA samples, coordinate files clinical label files (using SLP) are also generated. 
+After successfull training of SEG, GEP and SLP, the directory structure should look like the following:
 - SEG (containing SEG codes)
 - GEP (containing GEP codes)
+- SLP (containing SLP codes)
 - io_data
    - gene_names.csv
    - ST
       - wsi
       - coords
       - gene_exp
+      - clinical
       - patches (Containing split ST spots)
     - TCGA
       - tcga_exp.csv
       - wsi
       - patches (containing split TCGA spots)
       - coords (containing files having the coordinates of the generated spots from TCGA samples)
-- prediction (Predicted spot-level gene expression of the test TCGA samples)
-- results (Predicted spot-level gene expression of the test ST samples)
+      - clinical (contatining SLP generated files consisting of clinical tumor labels for the TCGA spots)
+- prediction (contains predicted spot-level gene expression and mean gene expression of the tumor spots for the test TCGA samples)
+- st_results (contains predicted spot-level gene expression of the test ST samples)
 - saved_moodel (directory for saving modeles temporarily in each eporch)
-- trained (directory for saving trained SEG and GEP modules)
-
-
-NB: Sample data is provided only to let the user know about the format and processing of the input data. Results might be poor if trained with sample data.
+- trained (directory for saving trained SEG, GEP and SLP modules)
