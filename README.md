@@ -42,6 +42,14 @@ The coordinate files' format should be:
 | Spot2   |    -   |    -  |
 | Spot3   |    -   |    -  |
 
+The clinical tumor labels file for ST data formar should be:
+
+|         |tumor_status|
+|---------|------------|
+| Spot1   |      -     |
+| Spot2   |      -     |
+| Spot3   |      -     |
+
 ## Training and testing the model
 The SEG and GEP modules can be trained and tested by running 'main.py' file in the command line. The options can be used to modify the training and model parameters. For example,
 ```
