@@ -16,20 +16,6 @@ from .utils import *
 seed = 0
 np.random.seed(seed)
 torch.manual_seed(seed)
-# # n_features = 10000
-# adj_threshold = 0.2
-# # alpha_loss = 0.2
-# gpu = 'cuda'
-# patience = 20
-# # alpha=0.75
-# nb_heads = 12
-# nb_embed = 64
-# BATCH_SIZE= 2
-# n_epochs = 10000
-# lr=1e-4
-# lr_step=5
-# lr_gamma=0.75
-
 
 
 
@@ -227,7 +213,7 @@ def validate_model(model, val_data, val_ims, val_adjs, criterion, gpu='cuda:0', 
 
 
 
-def test_model(model, test_data, test_ims, test_adjs, samples, spot_names_lst, gene_names, criterion, gpu='cuda:0', BATCH_SIZE=16):
+def test_model(model, test_data, test_ims, test_adjs, samples, spot_names_lst, gene_names, criterion, root_dir, gpu='cuda:0', BATCH_SIZE=16):
     print('-----------------------------Testing--------------------------------------')
     # empty list to store test losses
     test_losses = []
@@ -275,7 +261,12 @@ def test_model(model, test_data, test_ims, test_adjs, samples, spot_names_lst, g
         print('test single dataset correlation: ', test_corr)
         
         torch.cuda.empty_cache()
-
+        
+        # reading TCGA tumor labels:
+        clinical_data = pd.read_csv(root_dir + '/clinical/' + samples.index[i] + '_labels.csv', index_col=0)
+        tumor_spots_inds = clinical_data.loc[clinical_data['TCGA_prediction']==1].index
+        tumor_spots_out = spots_out.loc[tumor_spots_inds]
+        tumor_spots_out.mean(axis=0).to_csv('./prediction/'+samples.index[i]+'bulk_tumor_exp.csv')
     
     print('Test Corr: ', np.mean(test_corrs))
     print('Test Loss: ', np.mean(test_losses))
@@ -379,8 +370,8 @@ def run_GEP(root_dir, patience, adj_threshold, nb_heads, nb_embed, n_epochs, lr,
 
     # testings
     test_model(model, test_data, test_ims, test_adjs, samples, spot_names_lst, genes, 
-               criterion, gpu=gpu, BATCH_SIZE=BATCH_SIZE)
+               criterion, root_dir, gpu=gpu, BATCH_SIZE=BATCH_SIZE)
 
 
-    # torch.save(model.state_dict(), '{}.pkl'.format(subtype))
+    torch.save(model.state_dict(), './trained/trained_gep.pkl')
 
