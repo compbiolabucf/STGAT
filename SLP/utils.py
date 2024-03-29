@@ -193,7 +193,7 @@ def get_dataloader(image_set, BATCH_SIZE, gpu='cuda:0'):
     dataset = transform_dataset(image_set, mn, sd)
     device = get_default_device(gpu)
 
-    return DeviceDataLoader(DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=4, pin_memory=True, drop_last=True), device)
+    return DeviceDataLoader(DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, drop_last=True, num_workers=4, pin_memory=True, drop_last=True), device)
 
 
 
