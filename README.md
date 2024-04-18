@@ -79,3 +79,6 @@ After successfull training of SEG, GEP and SLP, the directory structure should l
 - st_results (contains predicted spot-level gene expression of the test ST samples)
 - saved_moodel (directory for saving modeles temporarily in each eporch)
 - trained (directory for saving trained SEG, GEP and SLP modules)
+
+## Applying trained model on TCGA samples
+After completion of training of all the modules, 'apply_stgat.py' can be run to to apply STGAT framework on TCGA samples to generate corresponding spot-level gene expression profiles.
