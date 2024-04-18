@@ -40,7 +40,7 @@ else: gpu='cpu'
 
 
 print("\n--------------Processing for TCGA data----------")
-split_tcga(args.apply_tcga_dir)
+split_tcga(args.apply_dir)
 print("--------Splitting done for TCGA data--------")
 
 ## Generating labels for TCGA data
