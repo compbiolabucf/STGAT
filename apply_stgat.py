@@ -29,7 +29,7 @@ parser.add_argument('--batch_size', type=int, default=16)
 
 ## SLP
 parser.add_argument('--slp_batch_size', type=int, default=16)
-parser.add_argument('--apply_tcga_dir', type=str, default='apply_data/input/')
+parser.add_argument('--apply_dir', type=str, default='apply_data/input/')
 
 
 args = parser.parse_args()
@@ -44,7 +44,7 @@ split_tcga(args.apply_tcga_dir)
 print("--------Splitting done for TCGA data--------")
 
 ## Generating labels for TCGA data
-apply_SLP(args.apply_tcga_dir, args.slp_batch_size)
+apply_SLP(args.apply_dir, args.slp_batch_size)
 
 
 
@@ -225,4 +225,4 @@ def run_model(root_dir, adj_threshold, nb_heads, nb_embed, BATCH_SIZE, gpu='cuda
 
 
 ### calling the function for applying STGAT framework
-run_model(args.apply_tcga_dir, args.adj_threshold, args.nb_heads, args.nb_embed, args.batch_size, gpu=gpu)
+run_model(args.apply_dir, args.adj_threshold, args.nb_heads, args.nb_embed, args.batch_size, gpu=gpu)
