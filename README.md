@@ -81,4 +81,9 @@ After successfull training of SEG, GEP and SLP, the directory structure should l
 - trained (directory for saving trained SEG, GEP and SLP modules)
 
 ## Applying trained model on TCGA samples
-After completion of training of all the modules, 'apply_stgat.py' can be run to to apply STGAT framework on TCGA samples to generate corresponding spot-level gene expression profiles.
+After completion of training of all the modules, 'apply_stgat.py' can be run to to apply STGAT framework on TCGA samples to generate corresponding spot-level gene expression profiles. The samples to be predicted for, should be placed inside the 'apply_data' directory which should have the follwoing structure:
+- apply_data
+  - input
+    - wsi (Containing whole slide images of the TCGA samples to be predicted)
+    - tcga_exp.csv (Containing bulk gene expression of the samples to be predicted)
+
