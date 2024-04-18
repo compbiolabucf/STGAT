@@ -185,7 +185,7 @@ def run_model(root_dir, adj_threshold, nb_heads, nb_embed, BATCH_SIZE, gpu='cuda
     patch_dir = root_dir + '/patches/'
     coord_dir = root_dir + '/coords/'
         
-    genes = pd.read_csv(root_dir + '../gene_names.csv', index_col=0)['Gene']
+    genes = pd.read_csv('io_data/gene_names.csv', index_col=0)['Gene']
     n_features = genes.shape[0]  
     exp_data = pd.read_csv(root_dir + '/tcga_exp.csv',index_col=0)[genes]
 
