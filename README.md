@@ -86,4 +86,8 @@ After completion of training of all the modules, 'apply_stgat.py' can be run to 
   - input
     - wsi (Containing whole slide images of the TCGA samples to be predicted)
     - tcga_exp.csv (Containing bulk gene expression of the samples to be predicted)
-
+An example run on the command line:
+```
+python apply_stgat.py --apply_dir apply_data/
+```
+After the execution is complete, the generated spot-level gene expression will be stored at 'apply_data/prediction/' directory.
