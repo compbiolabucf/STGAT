@@ -1,5 +1,5 @@
 # STGAT
-This repository represents a Machine Learning framework named STGAT (Spatial Transcriptomics Graph Attention Network) which can be trained on Spatial Transcriptomics (ST) data and applied on TCGA data to generate spot-level gene expression for the TCGA samples. The produced gene expression can be leveraged various downstream analysis including subtype classification, survival prediction etc. Moreover, comprehensive experimentation proves that considering only the tumor spots to compute the mean gene expression of a sample results in better performance.
+This repository represents a Machine Learning framework named STGAT (Spatial Transcriptomics Graph Attention Network) which can be trained on Spatial Transcriptomics (ST) data and applied on TCGA data to generate spot-level gene expression for the TCGA samples. The produced gene expression can be leveraged various downstream analysis including subtype classification, survival prediction etc. Moreover, comprehensive experimentation proves that considering only the tumor spots to compute the mean gene expression of a sample results in better performance. This work has been published in 'Briefings in Bioinformatics': https://academic.oup.com/bib/article/25/4/bbae316/7705532?searchresult=1
 
 ## Workflow
 ![alt text](https://github.com/compbiolabucf/STGAT/blob/main/STGAT_overall_diagram.png)
