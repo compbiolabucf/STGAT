@@ -11,8 +11,8 @@ from torch import nn, optim
 from sklearn.model_selection import train_test_split
 
 
-from .models import *
-from .utils import *
+from models import *
+from utils import *
 
 
 seed = 0
