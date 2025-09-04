@@ -9,8 +9,8 @@ import torch
 from torch.autograd import Variable
 from torch import nn, optim
 
-from .models import *
-from .utils import *
+from models import *
+from utils import *
 
 
 seed = 0
