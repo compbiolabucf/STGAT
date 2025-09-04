@@ -11,8 +11,8 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import roc_auc_score
 
-from .models import *
-from .utils import *
+from models import *
+from utils import *
 
 
 seed = 0
