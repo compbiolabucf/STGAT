@@ -7,8 +7,8 @@ import pandas as pd
 import numpy as np
 import torch
 
-from .models import *
-from .utils import *
+from models import *
+from utils import *
 
 
 seed = 0
